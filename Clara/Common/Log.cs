@@ -3,7 +3,9 @@
     public static class Log
     {
         private static string GetTimestamp() => DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
-        private static string CreateLog(string level, string message) => $"[{GetTimestamp()}] [{level}] {message}";
+
+        private static string GetLogMessage(string level, string message) => $"[{GetTimestamp()}] [{level}] {message}";
+
         private static void WriteToFile(string log)
         {
             string path = $"logs/log_{Session.GetStartTime().ToString("yyyy-MM-dd_HHmmss")}.txt";
@@ -16,47 +18,38 @@
             }
         }
 
-        public static void Custom(string level, string message, ConsoleColor color)
+        private static void Create(string level, string message, ConsoleColor color)
         {
-            string log = CreateLog(level, message);
+            string log = GetLogMessage(level, message);
             Console.ForegroundColor = color;
             Console.WriteLine(log);
             Console.ResetColor();
             WriteToFile(log);
         }
 
+        public static void Custom(string level, string message, ConsoleColor color)
+        {
+            Create(level, message, color);
+        }
+
         public static void Info(string message)
         {
-            string log = CreateLog("INFO", message);
-            Console.WriteLine(log);
-            WriteToFile(log);
+            Create("INFO", message, ConsoleColor.White);
         }
 
         public static void Warn(string message)
         {
-            string log = CreateLog("WARN", message);
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine(log);
-            Console.ResetColor();
-            WriteToFile(log);
+            Create("WARN", message, ConsoleColor.Yellow);
         }
 
         public static void Error(string message)
         {
-            string log = CreateLog("ERROR", message);
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(log);
-            Console.ResetColor();
-            WriteToFile(log);
+            Create("ERROR", message, ConsoleColor.Red);
         }
 
         public static void Success(string message)
         {
-            string log = CreateLog("SUCCESS", message);
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.WriteLine(log);
-            Console.ResetColor();
-            WriteToFile(log);
+            Create("SUCCESS", message, ConsoleColor.Green);
         }
     }
 }

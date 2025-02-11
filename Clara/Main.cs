@@ -1,3 +1,8 @@
 ﻿using Clara.Common;
+using Clara.Settings;
 
-Log.Info("Starting Clara...");
+Session.Start();
+
+Config.Initialize("config.json");
+
+Session.Stop();
