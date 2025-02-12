@@ -1,4 +1,6 @@
-﻿namespace Clara.Core
+﻿using Clara.Utils;
+
+namespace Clara.Core
 {
     public static class Session
     {
@@ -14,6 +16,10 @@
             Config.Initialize();
 
             Log.Success("Session started!");
+
+            Console.WriteLine();
+
+            Salutation.Welcome();
         }
 
         public static void Start()
@@ -30,6 +36,21 @@
             }
         }
 
+        private static void Terminate()
+        {
+            Salutation.Farewell();
+
+            Console.WriteLine();
+
+            Log.Info("Started at: " + Session.GetStartTime().ToString("yyyy-MM-dd HH:mm:ss"));
+            Log.Info("Uptime: " + Session.GetUptime().ToString(@"dd\.hh\:mm\:ss"));
+
+            Console.WriteLine();
+
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey();
+        }   
+
         public static void Stop()
         {
             if (!isRunning)
@@ -39,6 +60,8 @@
             else
             {
                 isRunning = false;
+
+                Terminate();
             }
         }
 
