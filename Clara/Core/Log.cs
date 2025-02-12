@@ -8,7 +8,7 @@
 
         private static void WriteToFile(string log)
         {
-            string path = $"logs/log_{Session.GetStartTime().ToString("yyyy-MM-dd_HHmmss")}.txt";
+            string path = $"{Session.rootPath}/logs/log_{Session.GetStartTime().ToString("yyyy-MM-dd_HHmmss")}.txt";
 
             Utils.Path.Create(path, true);
 

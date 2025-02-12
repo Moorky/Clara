@@ -5,12 +5,13 @@ namespace Clara.Core
     public static class Session
     {
         private static bool isRunning;
-        private static DateTime startTime;
+
+        public readonly static DateTime startTime = DateTime.Now;
+        public readonly static string exePath = Environment.ProcessPath ?? "";
+        public readonly static string rootPath = System.IO.Path.GetDirectoryName(exePath) ?? "";
 
         private static void Initialize()
         {
-            startTime = DateTime.Now;
-
             Log.Header("Starting session...");
 
             Config.Initialize();
@@ -44,11 +45,6 @@ namespace Clara.Core
 
             Log.Info("Started at: " + Session.GetStartTime().ToString("yyyy-MM-dd HH:mm:ss"));
             Log.Info("Uptime: " + Session.GetUptime().ToString(@"dd\.hh\:mm\:ss"));
-
-            Console.WriteLine();
-
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey();
         }   
 
         public static void Stop()

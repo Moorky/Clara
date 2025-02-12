@@ -23,7 +23,13 @@ namespace Clara.Modules
             {
                 try
                 {
-                    Process.Start(args[0]);
+                    var psi = new ProcessStartInfo
+                    {
+                        FileName = args[0],
+                        UseShellExecute = true
+                    };
+
+                    Process.Start(psi);
 
                     Log.Success($"Program '{args[0]}' started.");
                 }

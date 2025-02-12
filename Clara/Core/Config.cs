@@ -1,13 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Text.Json.Nodes;
 
 namespace Clara.Core
 {
     public static class Config
     {
-        private static readonly string configPath = "config.json";
+        private static readonly string configPath = Session.rootPath + "/config.json";
         private static JsonObject configData = new JsonObject();
 
         public static void Initialize()
