@@ -1,11 +1,14 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.IO;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Clara.Core
 {
     public static class Config
     {
-        private static string configPath = "config.json";
-        private static Dictionary<string, string> configData = new Dictionary<string, string>();
+        private static readonly string configPath = "config.json";
+        private static JsonObject configData = new JsonObject();
 
         public static void Initialize()
         {
@@ -13,67 +16,78 @@ namespace Clara.Core
 
             if (!File.Exists(configPath))
             {
-                Log.Info("Config file not found. Creating a new one at '" + configPath + "'");
-
+                Log.Info($"Config file not found. Creating a new one at '{configPath}'.");
                 CreateConfig();
             }
             else if (!IsValid())
             {
-                Log.Warn("Config file at '" + configPath + "' is invalid. Creating a new one and renaming the old one.");
-
+                Log.Warn($"Config file at '{configPath}' is invalid. Creating a new one and renaming the old one.");
                 CreateBackup();
                 CreateConfig();
             }
-
-            ReadConfig();
+            else
+            {
+                ReadConfig();
+            }
 
             Log.Success("Config initialized!");
         }
 
-        public static string Get(string key)
+        public static T? Get<T>(string key)
         {
             ReadConfig();
 
             if (configData == null)
             {
-                Log.Error($"Config data is null. Returning empty string for key '{key}'.");
-                return "";
-            }
-            else if (!configData.ContainsKey(key))
-            {
-                Log.Error($"Key '{key}' not found in config data. Returning empty string.");
-                return "";
-            }
-
-            return configData[key];
-        }
-
-        public static void Set(string key, string value)
-        {
-            if (configData == null)
-            {
-                Log.Warn($"Config data is null. Creating a new dictionary.");
-                configData = new Dictionary<string, string>();
+                Log.Error($"Config data is null. Returning default for key '{key}'.");
+                return default;
             }
 
             if (!configData.ContainsKey(key))
             {
-                Log.Info($"Key '{key}' not found in config data. Adding a new key-value pair.");
+                Log.Error($"Key '{key}' not found in config data. Returning default.");
+                return default;
             }
 
-            configData[key] = value;
+            try
+            {
+                JsonNode? node = configData[key];
+                if (node == null)
+                {
+                    return default;
+                }
+
+                return node.Deserialize<T>();
+            }
+            catch (Exception e)
+            {
+                Log.Error($"Error while converting key '{key}' to type {typeof(T).Name}: {e.Message}");
+                return default;
+            }
+        }
+
+        public static void Set<T>(string key, T value)
+        {
+            if (configData == null)
+            {
+                Log.Warn("Config data is null. Creating a new JsonObject.");
+                configData = new JsonObject();
+            }
+
+            JsonNode? node = JsonSerializer.SerializeToNode(value);
+            configData[key] = node;
 
             WriteConfig();
         }
 
-        public static Dictionary<string, string> GetAll()
+        public static JsonObject GetAll()
         {
             ReadConfig();
 
             if (configData == null)
             {
-                Log.Fatal("Config data is null. Returning an empty dictionary.");
-                return new Dictionary<string, string>();
+                Log.Fatal("Config data is null. Returning an empty JsonObject.");
+                return new JsonObject();
             }
 
             return configData;
@@ -83,7 +97,10 @@ namespace Clara.Core
         {
             Utils.Path.Create(configPath, true);
 
-            configData.Add("Username", "");
+            configData = new JsonObject
+            {
+                ["Username"] = ""
+            };
 
             WriteConfig();
         }
@@ -93,10 +110,8 @@ namespace Clara.Core
             try
             {
                 string configJson = File.ReadAllText(configPath);
-
-                JsonSerializer.Deserialize<Dictionary<string, string>>(configJson);
-
-                return true;
+                JsonNode? node = JsonNode.Parse(configJson);
+                return node is JsonObject;
             }
             catch (Exception e)
             {
@@ -123,12 +138,16 @@ namespace Clara.Core
             try
             {
                 string configJson = File.ReadAllText(configPath);
+                JsonNode? node = JsonNode.Parse(configJson);
 
-                Dictionary<string, string>? temp = JsonSerializer.Deserialize<Dictionary<string, string>>(configJson);
-
-                if (temp != null)
+                if (node is JsonObject obj)
                 {
-                    configData = temp;
+                    configData = obj;
+                }
+                else
+                {
+                    Log.Warn("Config file does not contain a valid JSON object. Reinitializing config.");
+                    configData = new JsonObject();
                 }
             }
             catch (Exception e)
@@ -141,8 +160,7 @@ namespace Clara.Core
         {
             try
             {
-                string configJson = JsonSerializer.Serialize(configData);
-
+                string configJson = configData.ToJsonString(new JsonSerializerOptions { WriteIndented = true });
                 File.WriteAllText(configPath, configJson);
             }
             catch (Exception e)

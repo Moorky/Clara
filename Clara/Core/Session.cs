@@ -9,9 +9,9 @@ namespace Clara.Core
 
         private static void Initialize()
         {
-            Log.Header("Starting session...");
-
             startTime = DateTime.Now;
+
+            Log.Header("Starting session...");
 
             Config.Initialize();
 

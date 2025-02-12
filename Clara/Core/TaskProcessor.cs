@@ -1,4 +1,5 @@
 ﻿using Clara.Modules;
+using Clara.Utils;
 
 namespace Clara.Core
 {
@@ -6,7 +7,7 @@ namespace Clara.Core
     {
         private static void Enter()
         {
-            AutoTasks.Run();
+            MultiTask.Run(Array.Empty<string>());
         }
 
         public static void Run()
@@ -21,20 +22,22 @@ namespace Clara.Core
         private static bool Process()
         {
             string input = User.Input("Command").ToLower();
-            string task = input.Contains(" ") ? input.Split(" ")[0] : input;
-            string[] args = input.Contains(" ") ? input.Split(" ")[1..] : new string[0];
 
-            bool result = RunTask(task, args);
+            (string task, string[] args) = Input.ParseCommand(input);
 
-            return result;
+            return RunTask(task, args);
         }
 
         public static bool RunTask(string task, string[] args)
         {
             switch (task)
             {
-                case "auto-tasks":
-                    AutoTasks.Run(args);
+                case "auto-start":
+                    AutoStart.Run(args);
+                    break;
+
+                case "multi-task":
+                    MultiTask.Run(args);
                     break;
 
                 case "start-program":
@@ -44,6 +47,12 @@ namespace Clara.Core
                 case "help":
                 case "h":
                     Help.Run(args);
+                    break;
+
+                case "hi":
+                case "hello":
+                case "hey":
+                    Log.Clara("Hello!");
                     break;
 
                 case "exit":

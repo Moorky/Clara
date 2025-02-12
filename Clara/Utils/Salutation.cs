@@ -16,25 +16,25 @@ namespace Clara.Utils
 
             if (hour >= 5 && hour < 12)
             {
-                Log.Clara($"Good morning, {Config.Get("Username")}!");
+                Log.Clara($"Good morning, {Config.Get<string>("Username")}!");
             }
             else if (hour >= 12 && hour < 18)
             {
-                Log.Clara($"Hi, {Config.Get("Username")}!");
+                Log.Clara($"Hi, {Config.Get<string>("Username")}!");
             }
             else if (hour >= 18 && hour < 23)
             {
-                Log.Clara($"Hey, {Config.Get("Username")}!");
+                Log.Clara($"Hey, {Config.Get<string>("Username")}!");
             }
             else
             {
-                Log.Clara($"Up to no good, {Config.Get("Username")}?");
+                Log.Clara($"Up to no good, {Config.Get<string>("Username")}?");
             }
         }
 
         private static void CheckNewUser()
         {
-            if (Config.Get("Username") == "")
+            if (Config.Get<string>("Username") == "")
             {
                 Log.Clara("Hi I'm Clara! Who are you?");
 
@@ -58,7 +58,7 @@ namespace Clara.Utils
 
         public static void Farewell()
         {
-            Log.Clara($"Goodbye, {Config.Get("Username")}!");
+            Log.Clara($"Goodbye, {Config.Get<string>("Username")}!");
         }
     }
 }
