@@ -1,8 +1,14 @@
-﻿using Clara.Common;
-using Clara.Settings;
+﻿#region Imports
 
-Session.Start();
+using Clara.Core;
 
-Config.Initialize("config.json");
+#endregion
 
-Session.Stop();
+
+#region Main
+
+Controller.Start();
+
+Controller.Stop();
+
+#endregion

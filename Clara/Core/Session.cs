@@ -1,4 +1,4 @@
-﻿namespace Clara.Common
+﻿namespace Clara.Core
 {
     public static class Session
     {
@@ -7,7 +7,13 @@
 
         private static void Initialize()
         {
+            Log.Header("Starting session...");
+
             startTime = DateTime.Now;
+
+            Config.Initialize();
+
+            Log.Success("Session started!");
         }
 
         public static void Start()

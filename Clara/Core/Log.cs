@@ -1,4 +1,4 @@
-﻿namespace Clara.Common
+﻿namespace Clara.Core
 {
     public static class Log
     {
@@ -32,9 +32,19 @@
             Create(level, message, color);
         }
 
+        public static void Trace(string message)
+        {
+            Create("TRACE", message, ConsoleColor.Gray);
+        }
+
         public static void Info(string message)
         {
             Create("INFO", message, ConsoleColor.White);
+        }
+
+        public static void Header(string message)
+        {
+            Create("HEADER", message, ConsoleColor.Green);
         }
 
         public static void Warn(string message)
@@ -47,9 +57,29 @@
             Create("ERROR", message, ConsoleColor.Red);
         }
 
+        public static void Fatal(string message)
+        {
+            Create("FATAL", message, ConsoleColor.DarkRed);
+        }
+
         public static void Success(string message)
         {
             Create("SUCCESS", message, ConsoleColor.Green);
+        }
+
+        public static void Failure(string message)
+        {
+            Create("FAILURE", message, ConsoleColor.Red);
+        }
+
+        public static void Clara(string message)
+        {
+            Create("CLARA", message, ConsoleColor.Magenta);
+        }
+
+        public static void User(string message)
+        {
+            Create("USER", message, ConsoleColor.Cyan);
         }
     }
 }
