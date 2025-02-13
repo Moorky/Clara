@@ -1,1 +1,1 @@
-﻿Clara.Core.Main.Run();
+﻿Clara.Main.Run();

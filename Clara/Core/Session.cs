@@ -10,13 +10,7 @@
 
         private static void Initialize()
         {
-            Log.Header("Starting session...");
-
             Config.Initialize();
-
-            Log.Success("Session started!");
-
-            Console.WriteLine();
         }
 
         public static void Start()

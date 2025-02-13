@@ -6,24 +6,28 @@ namespace Clara
 {
     public static class Controller
     {
-        private static string[] _task = new string[] { "autostart", "multitasks", "exit" };
+        private static readonly string[] _module = ["StartProgram", "Autostart", "TaskBatcher", "Exit"];
 
         private static void Enter()
         {
-            MultiTasks.Run(Array.Empty<string>());
-        }
 
-        private static void Process()
-        {
-            int index;
-
-            do { index = Menu.Run(_task); }
-            while (RunTask(_task[index], Array.Empty<string>()));
         }
 
         private static void Exit()
         {
-            Log.Info("Goodbye!");
+            
+        }
+
+        private static void Process()
+        {
+            bool run = true;
+
+            while (run)
+            {
+                run = RunModule(_module[Menu.Run(typeof(Controller).Name, _module)], []);
+
+                Input.PressAnyKeyToContinue();
+            }
         }
 
         public static void Run()
@@ -33,28 +37,29 @@ namespace Clara
             Exit();
         }
 
-        public static bool RunTask(string task, string[] args)
+        public static bool RunModule(string module, string[] args)
         {
-            switch (task)
+            switch (module.ToLower())
             {
-                case "autostart":
-                    AutoStart.Run(args);
+                case "startprogram":
+                    new StartProgram().Run(args);
                     break;
 
-                case "multitasks":
-                    MultiTasks.Run(args);
+                case "autostart":
+                    new AutoStart().Run(args);
+                    break;
+
+                case "taskbatcher":
+                    new TaskBatcher().Run(args);
                     break;
 
                 case "exit":
                     return false;
 
                 default:
-                    Log.Error("Invalid task!");
+                    Log.Error("Invalid module!");
                     break;
             }
-
-            Input.PressAnyKeyToContinue();
-            Console.Clear();
 
             return true;
         }

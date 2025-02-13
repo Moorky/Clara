@@ -3,12 +3,22 @@ using Microsoft.Win32;
 
 namespace Clara.Modules
 {
-    public static class AutoStart
+    public class AutoStart : Module
     {
-        private static string appName = "Clara";
-        private static string appPath = Session.exePath;
+        private string appName = "Clara";
+        private string appPath = Session.exePath;
 
-        public static void Run(string[] args)
+        protected override void Enter()
+        {
+
+        }
+
+        protected override void Exit()
+        {
+
+        }
+
+        protected override void Process()
         {
             try
             {
@@ -31,14 +41,14 @@ namespace Clara.Modules
             }
         }
 
-        private static bool IsAutoStartSet()
+        private bool IsAutoStartSet()
         {
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", false))
+            using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", false))
             {
                 if (key == null)
                     throw new Exception("Failed to open registry key for autostart.");
 
-                object value = key.GetValue(appName);
+                object? value = key.GetValue(appName);
                 if (value != null)
                 {
                     // Remove surrounding quotes (if any) for a fair comparison
@@ -51,9 +61,9 @@ namespace Clara.Modules
             }
         }
 
-        private static void SetAutoStart(bool enable)
+        private void SetAutoStart(bool enable)
         {
-            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
+            using (RegistryKey? key = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run", true))
             {
                 if (key == null)
                     throw new Exception("Failed to open registry key for autostart.");

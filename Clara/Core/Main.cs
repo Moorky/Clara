@@ -1,4 +1,6 @@
-﻿namespace Clara.Core
+﻿using Clara.Core;
+
+namespace Clara
 {
     public static class Main
     {
@@ -7,14 +9,14 @@
             Session.Start();
         }
 
-        private static void Process()
-        {
-            Controller.Run();
-        }
-
         private static void Exit()
         {
             Session.Stop();
+        }
+
+        private static void Process()
+        {
+            Controller.Run();
         }
 
         public static void Run()

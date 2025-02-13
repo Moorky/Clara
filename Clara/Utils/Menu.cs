@@ -2,12 +2,14 @@
 {
     public static class Menu
     {
-        public static int Run(string[] options)
+        public static int Run(string header, string[] options)
         {
             while (true)
             {
+                Console.Clear();
+
                 Console.BackgroundColor = ConsoleColor.DarkBlue;
-                Console.WriteLine("--- MENU ---");
+                Console.WriteLine($"---- {header.ToUpper()} ----");
                 Console.ResetColor();
 
                 Console.BackgroundColor = ConsoleColor.Blue;
@@ -17,7 +19,7 @@
                 }
                 Console.ResetColor();
 
-                ConsoleKeyInfo key = Console.ReadKey();
+                ConsoleKeyInfo key = Console.ReadKey(true);
 
                 for (int i = 0; i < options.Length + 1; i++)
                 {
@@ -29,6 +31,8 @@
                 {
                     return index - 1;
                 }
+
+                Console.SetCursorPosition(0, Console.CursorTop);
             }
         }
     }

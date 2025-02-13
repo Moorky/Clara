@@ -3,9 +3,19 @@ using Clara.Core;
 
 namespace Clara.Modules
 {
-    public static class StartProgram
+    public class StartProgram : Module
     {
-        public static void Run(string[] args)
+        protected override void Enter()
+        {
+            
+        }
+
+        protected override void Exit()
+        {
+            
+        }
+
+        protected override void Process()
         {
             if (args.Length == 0)
             {
@@ -29,7 +39,7 @@ namespace Clara.Modules
                         UseShellExecute = true
                     };
 
-                    Process.Start(psi);
+                    System.Diagnostics.Process.Start(psi);
 
                     Log.Success($"Program '{args[0]}' started.");
                 }

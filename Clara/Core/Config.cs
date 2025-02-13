@@ -10,8 +10,6 @@ namespace Clara.Core
 
         public static void Initialize()
         {
-            Log.Header("Initializing config...");
-
             if (!File.Exists(configPath))
             {
                 Log.Info($"Config file not found. Creating a new one at '{configPath}'.");
@@ -27,8 +25,6 @@ namespace Clara.Core
             {
                 ReadConfig();
             }
-
-            Log.Success("Config initialized!");
         }
 
         public static T? Get<T>(string key)
