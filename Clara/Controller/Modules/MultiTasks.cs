@@ -3,7 +3,7 @@ using Clara.Utils;
 
 namespace Clara.Modules
 {
-    public static class MultiTask
+    public static class MultiTasks
     {
         private static List<Tasks> _multiTasks = new List<Tasks>();
 
@@ -64,7 +64,7 @@ namespace Clara.Modules
                 {
                     (string task, string[] args) = Input.ParseCommand(command);
 
-                    TaskProcessor.RunTask(task, args);
+                    Controller.RunTask(task, args);
                 }
             }
         }

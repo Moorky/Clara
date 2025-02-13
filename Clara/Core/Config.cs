@@ -95,10 +95,7 @@ namespace Clara.Core
         {
             Utils.Path.Create(configPath, true);
 
-            configData = new JsonObject
-            {
-                ["Username"] = ""
-            };
+            configData = new JsonObject { };
 
             WriteConfig();
         }

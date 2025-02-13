@@ -1,0 +1,1 @@
+﻿Clara.Core.Main.Run();

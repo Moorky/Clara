@@ -1,6 +1,4 @@
-﻿using Clara.Utils;
-
-namespace Clara.Core
+﻿namespace Clara.Core
 {
     public static class Session
     {
@@ -8,7 +6,7 @@ namespace Clara.Core
 
         public readonly static DateTime startTime = DateTime.Now;
         public readonly static string exePath = Environment.ProcessPath ?? "";
-        public readonly static string rootPath = System.IO.Path.GetDirectoryName(exePath) ?? "";
+        public readonly static string rootPath = Path.GetDirectoryName(exePath) ?? "";
 
         private static void Initialize()
         {
@@ -19,8 +17,6 @@ namespace Clara.Core
             Log.Success("Session started!");
 
             Console.WriteLine();
-
-            Salutation.Welcome();
         }
 
         public static void Start()
@@ -39,8 +35,6 @@ namespace Clara.Core
 
         private static void Terminate()
         {
-            Salutation.Farewell();
-
             Console.WriteLine();
 
             Log.Info("Started at: " + Session.GetStartTime().ToString("yyyy-MM-dd HH:mm:ss"));
