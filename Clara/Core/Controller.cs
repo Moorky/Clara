@@ -19,12 +19,12 @@ namespace Clara.Core
 
         private static void Enter()
         {
-            
+            Session.Start();
         }
 
         private static void Exit()
         {
-            
+            Session.Stop();
         }
 
         private static void Process()
