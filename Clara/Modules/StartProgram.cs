@@ -10,11 +10,6 @@ namespace Clara.Modules
 
         protected override Dictionary<string, Action<string[]>> _commandHandlers => throw new NotImplementedException();
 
-        protected override void Menu()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override void Enter()
         {
             throw new NotImplementedException();
@@ -27,13 +22,13 @@ namespace Clara.Modules
 
         protected override void Execute()
         {
-            if (args.Length == 0)
+            if (args.Count == 0)
             {
                 Log.Warn("Arguments missing.");
                 Log.Info("Usage: start-program <program>");
                 return;
             }
-            else if (args.Length > 1)
+            else if (args.Count > 1)
             {
                 Log.Warn("Too many arguments.");
                 Log.Info("Usage: start-program <program>");

@@ -4,33 +4,45 @@ namespace Clara.Core
 {
     public abstract class Module
     {
-        protected string[] args = [];
+        protected List<string> args = [];
+
         protected abstract string[] _menuCommands { get; }
+
         protected abstract Dictionary<string, Action<string[]>> _commandHandlers { get; }
 
         public virtual void Run(string[] args)
         {
-            this.args = args;
+            this.args = args.ToList();
 
             Console.Clear();
             if (args == null || args.Length == 0)
             {
-                Menu();
+                GetArgs();
             }
+            Log.Info("Command: '" + (GetType().Name + " " + string.Join(" ", this.args)).Trim() + "'");
+
             Log.Header("START " + GetType().Name);
 
             Enter();
-            if (this.args.Length > 0)
+            if (this.args.Count > 0)
             {
                 Execute();
             }
             Exit();
 
-            Log.Info($"Executed: '{GetType().Name} {string.Join(" ", args)}'");
             Log.Header("END " + GetType().Name);
         }
 
-        protected abstract void Menu();
+        protected virtual void GetArgs()
+        {
+            string command = _menuCommands[Menu.Run(GetType().Name, _menuCommands)];
+
+            args.Add(command);
+
+            GetUserInput(command);
+        }
+
+        protected virtual void GetUserInput(string command) { }
 
         protected abstract void Enter();
 

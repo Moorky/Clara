@@ -52,45 +52,28 @@ namespace Clara.Modules
             }
         };
 
-        protected override void Menu()
+        protected override void GetUserInput(string command)
         {
-            List<string> argsList = new List<string>();
-
-            int selected = Utils.Menu.Run(GetType().Name, _menuCommands);
-            string chosenCommand = _menuCommands[selected];
-
-            switch (chosenCommand)
+            switch (command)
             {
                 case "Run":
-                    argsList.Add("run");
-                    argsList.Add(Input.Get("Name"));
+                    args.Add(Input.Get("Name"));
                     break;
 
                 case "Add":
-                    argsList.Add("add");
-                    argsList.Add(Input.Get("Name"));
+                    args.Add(Input.Get("Name"));
                     List<string> commands = new List<string>();
-                    while (Utils.Menu.Run("Add another command?", ["Yes", "No"]) == 0)
+                    while (Utils.Menu.Run("Add command?", ["Yes", "No"]) == 0)
                     {
                         commands.Add(Input.Get("Command"));
                     }
-                    argsList.AddRange(commands);
+                    args.AddRange(commands);
                     break;
 
                 case "Remove":
-                    argsList.Add("remove");
-                    argsList.Add(Input.Get("Name"));
+                    args.Add(Input.Get("Name"));
                     break;
-
-                case "List":
-                    argsList.Add("list");
-                    break;
-
-                case "Exit":
-                    return;
             }
-
-            args = argsList.ToArray();
         }
 
         protected override void Enter()
@@ -131,7 +114,16 @@ namespace Clara.Modules
             {
                 Log.Info("Running command: " + command);
                 (string module, string[] args) = Input.ParseCommand(command);
-                Controller.RunModule(module, args);
+
+                try
+                {
+                    Controller.RunModule(module, args);
+                }
+                catch (Exception ex)
+                {
+                    Log.Fatal($"Error running command: {command}");
+                    Log.Fatal(ex.Message);
+                }
             }
         }
 

@@ -72,7 +72,7 @@ namespace Clara.Utils
             Console.ReadKey();
         }
 
-        public static string Get(string? label = null)
+        public static string Get(string? label = null, bool log = false)
         {
             if (!string.IsNullOrEmpty(label))
                 Console.Write($"{label}: ");
@@ -81,7 +81,9 @@ namespace Clara.Utils
 
             if (!string.IsNullOrEmpty(input))
             {
-                Log.User(input);
+                if (log)
+                    Log.User(input);
+
                 return input.ToLowerInvariant();
             }
 
