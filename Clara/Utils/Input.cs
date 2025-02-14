@@ -1,5 +1,4 @@
-﻿using Clara.Core;
-using System.Text;
+﻿using System.Text;
 
 namespace Clara.Utils
 {

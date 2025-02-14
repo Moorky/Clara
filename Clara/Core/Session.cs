@@ -1,4 +1,6 @@
-﻿namespace Clara.Core
+﻿using Clara.Utils;
+
+namespace Clara.Core
 {
     public static class Session
     {
@@ -6,7 +8,7 @@
 
         public readonly static DateTime startTime = DateTime.Now;
         public readonly static string exePath = Environment.ProcessPath ?? "";
-        public readonly static string rootPath = Path.GetDirectoryName(exePath) ?? "";
+        public readonly static string rootPath = System.IO.Path.GetDirectoryName(exePath) ?? "";
 
         private static void Initialize()
         {

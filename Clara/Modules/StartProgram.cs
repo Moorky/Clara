@@ -1,21 +1,31 @@
 ﻿using System.Diagnostics;
 using Clara.Core;
+using Clara.Utils;
 
 namespace Clara.Modules
 {
     public class StartProgram : Module
     {
+        protected override string[] _menuCommands => throw new NotImplementedException();
+
+        protected override Dictionary<string, Action<string[]>> _commandHandlers => throw new NotImplementedException();
+
+        protected override void Menu()
+        {
+            throw new NotImplementedException();
+        }
+
         protected override void Enter()
         {
-            
+            throw new NotImplementedException();
         }
 
         protected override void Exit()
         {
-            
+            throw new NotImplementedException();
         }
 
-        protected override void Process()
+        protected override void Execute()
         {
             if (args.Length == 0)
             {

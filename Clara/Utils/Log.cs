@@ -1,4 +1,6 @@
-﻿namespace Clara.Core
+﻿using Clara.Core;
+
+namespace Clara.Utils
 {
     public static class Log
     {
@@ -10,7 +12,7 @@
         {
             string path = $"{Session.rootPath}/logs/log_{Session.GetStartTime().ToString("yyyy-MM-dd_HHmmss")}.txt";
 
-            Utils.Path.Create(path, true);
+            Path.Create(path, true);
 
             using (StreamWriter sw = File.AppendText(path))
             {

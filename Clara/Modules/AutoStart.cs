@@ -1,4 +1,5 @@
 ﻿using Clara.Core;
+using Clara.Utils;
 using Microsoft.Win32;
 
 namespace Clara.Modules
@@ -8,37 +9,23 @@ namespace Clara.Modules
         private string appName = "Clara";
         private string appPath = Session.exePath;
 
-        protected override void Enter()
+        protected override string[] _menuCommands => throw new NotImplementedException();
+
+        protected override Dictionary<string, Action<string[]>> _commandHandlers => throw new NotImplementedException();
+
+        protected override void Menu()
         {
 
+        }
+
+        protected override void Enter()
+        {
+            
         }
 
         protected override void Exit()
         {
-
-        }
-
-        protected override void Process()
-        {
-            try
-            {
-                if (IsAutoStartSet())
-                {
-                    Log.Info("Disabling autostart...");
-                    SetAutoStart(false);
-                    Log.Success("Autostart disabled.");
-                }
-                else
-                {
-                    Log.Info("Enabling autostart...");
-                    SetAutoStart(true);
-                    Log.Success("Autostart enabled.");
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Failure($"An error occurred: {ex.Message}");
-            }
+            
         }
 
         private bool IsAutoStartSet()
