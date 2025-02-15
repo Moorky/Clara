@@ -7,9 +7,26 @@ namespace Clara.Modules
     {
         private List<Batch> _batches = new List<Batch>();
 
-        protected override string[] _menuCommands => ["Run", "Add", "Remove", "List", "Exit"];
+        protected override Dictionary<string, Action> _menuHandlers => new Dictionary<string, Action>
+        {
+            { "Run", () => args.Add(Input.Get("Name")) },
+            { "Add", () => 
+                {
+                    args.Add(Input.Get("Name"));
+                    List<string> commands = new List<string>();
+                    while (Menu.Run("Add command?", ["Yes", "No"]) == 0)
+                    {
+                        commands.Add(Input.Get("Command"));
+                    }
+                    args.AddRange(commands);
+                } 
+            },
+            { "Remove", () => args.Add(Input.Get("Name")) },
+            { "List", () => { } },
+            { "Exit", () => { } }
+        };
 
-        protected override Dictionary<string, Action<string[]>> _commandHandlers => new Dictionary<string, Action<string[]>>
+        protected override Dictionary<string, Action<string[]>> _argHandlers => new Dictionary<string, Action<string[]>>
         {
             { "run", parameters =>
                 {
@@ -49,32 +66,9 @@ namespace Clara.Modules
                     Log.Header("List of all Batches");
                     ListBatches();
                 }
-            }
+            },
+            { "exit", parameters => Log.Header("Exiting...") }
         };
-
-        protected override void GetUserInput(string command)
-        {
-            switch (command)
-            {
-                case "Run":
-                    args.Add(Input.Get("Name"));
-                    break;
-
-                case "Add":
-                    args.Add(Input.Get("Name"));
-                    List<string> commands = new List<string>();
-                    while (Utils.Menu.Run("Add command?", ["Yes", "No"]) == 0)
-                    {
-                        commands.Add(Input.Get("Command"));
-                    }
-                    args.AddRange(commands);
-                    break;
-
-                case "Remove":
-                    args.Add(Input.Get("Name"));
-                    break;
-            }
-        }
 
         protected override void Enter()
         {

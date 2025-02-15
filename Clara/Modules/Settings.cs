@@ -11,22 +11,15 @@ namespace Clara.Modules
 
         private string appPath = Session.exePath;
 
-        protected override string[] _menuCommands => ["Autostart", "Exit"];
+        protected override Dictionary<string, Action> _menuHandlers => new Dictionary<string, Action>
+        {
+            ["autostart"] = () => { }
+        };
 
-        protected override Dictionary<string, Action<string[]>> _commandHandlers => new Dictionary<string, Action<string[]>>
+        protected override Dictionary<string, Action<string[]>> _argHandlers => new Dictionary<string, Action<string[]>>
         {
             ["autostart"] = (args) => ToggleAutoStart()
         };
-
-        protected override void Enter()
-        {
-
-        }
-
-        protected override void Exit()
-        {
-
-        }
 
         private void ToggleAutoStart()
         {

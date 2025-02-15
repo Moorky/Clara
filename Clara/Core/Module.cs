@@ -6,9 +6,9 @@ namespace Clara.Core
     {
         protected List<string> args = [];
 
-        protected abstract string[] _menuCommands { get; }
+        protected abstract Dictionary<string, Action> _menuHandlers { get; }
 
-        protected abstract Dictionary<string, Action<string[]>> _commandHandlers { get; }
+        protected abstract Dictionary<string, Action<string[]>> _argHandlers { get; }
 
         public virtual void Run(string[] args)
         {
@@ -35,23 +35,20 @@ namespace Clara.Core
 
         protected virtual void GetArgs()
         {
-            string command = _menuCommands[Menu.Run(GetType().Name, _menuCommands)];
+            string command = _menuHandlers.Keys.ToArray()[Menu.Run(GetType().Name, _menuHandlers.Keys.ToArray())];
 
             args.Add(command);
-
-            GetUserInput(command);
+            _menuHandlers[command]();
         }
 
-        protected virtual void GetUserInput(string command) { }
-
-        protected abstract void Enter();
+        protected virtual void Enter() { }
 
         protected virtual void Execute()
         {
             string command = args[0].ToLower();
-            if (_commandHandlers.ContainsKey(command))
+            if (_argHandlers.ContainsKey(command))
             {
-                _commandHandlers[command](args.Skip(1).ToArray());
+                _argHandlers[command](args.Skip(1).ToArray());
             }
             else
             {
@@ -59,6 +56,6 @@ namespace Clara.Core
             }
         }
 
-        protected abstract void Exit();
+        protected virtual void Exit() { }
     }
 }

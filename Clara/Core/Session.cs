@@ -35,6 +35,10 @@ namespace Clara.Core
 
             Log.Info("Started at: " + Session.GetStartTime().ToString("yyyy-MM-dd HH:mm:ss"));
             Log.Info("Uptime: " + Session.GetUptime().ToString(@"dd\.hh\:mm\:ss"));
+
+            Console.WriteLine();
+
+            Input.PressAnyKeyToContinue();
         }   
 
         public static void Stop()
