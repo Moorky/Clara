@@ -19,8 +19,9 @@ namespace Clara.Core
             {
                 GetArgs();
             }
-            Log.Info("Command: '" + (GetType().Name + " " + string.Join(" ", this.args)).Trim() + "'");
 
+            Console.Clear();
+            Log.Info("Command: \"" + (GetType().Name + " " + string.Join(" ", this.args)).Trim() + "\"");
             Log.Header("START " + GetType().Name);
 
             Enter();

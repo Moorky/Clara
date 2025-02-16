@@ -21,18 +21,12 @@
 
                 ConsoleKeyInfo key = Console.ReadKey(true);
 
-                for (int i = 0; i < options.Length + 1; i++)
-                {
-                    Console.SetCursorPosition(0, Console.CursorTop - 1);
-                    Console.Write(new string(' ', Console.WindowWidth));
-                }
+                Console.Clear();
 
                 if (int.TryParse(key.KeyChar.ToString(), out int index) && index > 0 && index <= options.Length)
                 {
                     return index - 1;
                 }
-
-                Console.SetCursorPosition(0, Console.CursorTop);
             }
         }
     }
